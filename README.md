@@ -45,7 +45,7 @@ The same can be archieved by setting the following variables in Hiera:
 
      puppetclient::server :      'puppet.domain.com'
      puppetclient::startmode :   'cron'
-     puppetclient::cronminutes : [ '5','25','45' ],
+     puppetclient::cronminutes : [ '5','25','45' ]
      puppetclient::splay :       300
 
 If you want to set $upstreamrepository, you currently need to use **'true'** (the string), not **true** (Boolean value)
