@@ -28,6 +28,19 @@ The following class parameters are supported and can either be set from the mani
     * 'manual': /etc/default/puppet/START is set to no, no cronjob is installed. Puppet has to be run manually or from another Supervisor
 * cronminutes: An array of minutes on the clock where the Puppet client will be run. Only used when startmode == cron. Defaults to a random 30 minute interval based on the client FQDN
 * splay: if defined and $startmode == 'cron', wait a random interval of up to $splay seconds for each run. Used to spread the load. It installs a bashscript in /usr/local/bin/waitrandom to do this.
+* upstreamrepository: If set to 'true', configure APT to use the Puppetlabs APT Repository. Only supported on Debian so far.
+
+Example:
+
+    class {'puppetclient':
+        $server      => 'puppet.domain.com',
+        $startmode   => 'cron',
+        $cronminutes => [ '5','25','45' ],
+	$splay       => '300'
+    }
+
+This sets the server to 'puppet.domain.com' and configures Puppet to be run from cron every 20 minutes. To ease the load on the server each individual run will be delayed up to 300 seconds (five minutes).
+
 
 ## Author
 
