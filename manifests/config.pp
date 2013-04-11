@@ -5,29 +5,29 @@ class puppetclient::config (
     $splay = undef,
     $data = {},
 ) {
-  $default = { 
+  $default = {
     'main' => {
-       'logdir' => '/var/log/puppet',
-       'vardir' => '/var/lib/puppet',
-       'ssldir' => '/var/lib/puppet/ssl',
-       'rundir' => '/var/run/puppet',
-       'factpath' => '$vardir/lib/facter',
-       'templatedir' => '$confdir/templates',
-       'usecacheonfailure' => 'false',
+      'logdir' => '/var/log/puppet',
+      'vardir' => '/var/lib/puppet',
+      'ssldir' => '/var/lib/puppet/ssl',
+      'rundir' => '/var/run/puppet',
+      'factpath' => '$vardir/lib/facter',
+      'templatedir' => '$confdir/templates',
+      'usecacheonfailure' => 'false',
     },
     'agent' => {
-       'pluginsync' => 'true',
-       'report' => 'true',
-       'server' => $server,
+      'pluginsync' => 'true',
+      'report' => 'true',
+      'server' => $server,
     },
     'master' => {
-       'ssl_client_header' => 'SSL_CLIENT_S_DN',
-       'ssl_client_verify_header' => 'SSL_CLIENT_VERIFY',
-       'modulepath' => '$confdir/environments/$environment/modules',
-       'manifest' => '$confdir/environments/$environment/manifests/site.pp',
-       'certname' => $server,
-       'reports' => 'tagmail,log,store',
-     }
+      'ssl_client_header' => 'SSL_CLIENT_S_DN',
+      'ssl_client_verify_header' => 'SSL_CLIENT_VERIFY',
+      'modulepath' => '$confdir/environments/$environment/modules',
+      'manifest' => '$confdir/environments/$environment/manifests/site.pp',
+      'certname' => $server,
+      'reports' => 'tagmail,log,store',
+    }
   }
 
   # Live would be so easy if there was a deep_merge function
