@@ -1,0 +1,11 @@
+#!/bin/bash
+# Sleep a random amount of time between 0 and $1 seconds. 
+
+if [ -z "$1" ]; then
+   echo "Usage: $0 MAXTIME"
+   echo "Sleep for up to MAXTIME seconds, then exit"
+   exit 1
+fi
+
+sleep $(( $RANDOM % $1 ))
+
