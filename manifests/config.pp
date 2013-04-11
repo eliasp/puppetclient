@@ -10,14 +10,14 @@ class puppetclient::config (
 
   file { '/usr/bin/waitrandom':
     source => 'puppet:///modules/puppetclient/waitrandom',
-    mode   => 0755,
+    mode   => '0755',
   }
 
   if $startmode {
     if $startmode == 'daemon' {
-      augeas { "puppetclient::enable_puppet":
+      augeas { 'puppetclient::enable_puppet':
         changes => [
-          "set /files/etc/default/puppet/START yes"
+          'set /files/etc/default/puppet/START yes'
         ],
       }
 
@@ -31,17 +31,17 @@ class puppetclient::config (
     }
 
     if $startmode == 'cron' or $startmode == 'manual' {
-      augeas { "puppetclient::enable_puppet":
+      augeas { 'puppetclient::enable_puppet':
         changes => [
-          "set /files/etc/default/puppet/START no"
+          'set /files/etc/default/puppet/START no'
         ],
       }
 
       file { '/etc/cron.d/puppetclient':
-        ensure => $startmode ? {
-		/cron/ => present,
-		default => absent,
-		},
+        ensure  => $startmode ? {
+          /cron/  => present,
+          default => absent,
+        },
         content => template('puppetclient/puppetclient.cron.erb')
       }
 
@@ -51,4 +51,4 @@ class puppetclient::config (
     }
   }
 }
-    
+
