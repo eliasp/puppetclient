@@ -51,6 +51,20 @@ The same can be archieved by setting the following variables in Hiera:
 
 If you want to set $upstreamrepository, you currently need to use **'true'** (the string), not **true** (Boolean value)
 
+You can also set and overwrite arbitrary files in the generated puppet.conf from Hiera, and possibly from plain Puppet manifests, too. You need to create a nested hash and pass it to 'puppetclient::config', where the outer key is the section and the inner key is the variable to be set. Due to limitations of stdlib only the
+
+ * main
+ * master
+ * agent
+
+sections are currently supported, new sections are quite easy to add (look into manifests/config.pp).
+
+It is recommended to set those values from Hiera, i.e.
+
+    puppetclient::config::data :
+        master :
+            reportfrom : 'some.mail@domain.com'
+
 
 ## Author
 
