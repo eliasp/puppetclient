@@ -57,7 +57,7 @@ Bernhard Schmidt <berni@birkenwald.de>
 
 ## Licence
 
-GPLv3
+[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Support
 
