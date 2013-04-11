@@ -1,33 +1,7 @@
-[main]
-	logdir=/var/log/puppet
-	vardir=/var/lib/puppet
-	ssldir=/var/lib/puppet/ssl
-	rundir=/var/run/puppet
-	factpath=$vardir/lib/facter
-	templatedir=$confdir/templates
-	#prerun_command=/etc/puppet/etckeeper-commit-pre
-	#postrun_command=/etc/puppet/etckeeper-commit-post
-
-	usecacheonfailure = false
-
-[agent]
-        pluginsync = true
-        report = true
-<% if @server -%>
-        server = <%= @server %>
-<% end -%>
-
-
-[master]
-	# These are needed when the puppetmaster is run by passenger
-	# and can safely be removed if webrick is used.
-	ssl_client_header = SSL_CLIENT_S_DN 
-	ssl_client_verify_header = SSL_CLIENT_VERIFY
-
-	modulepath = $confdir/environments/$environment/modules
-	manifest = $confdir/environments/$environment/manifests/site.pp
-
-	certname = puppet-kom.srv.lrz.de
-	reports = tagmail,log,store
-	reportfrom = Bernhard.Schmidt@lrz.de
+<% config.each_pair do |section, key_values| -%>
+[<%= section -%>]
+<% key_values.each_pair do |key, value| -%>
+	<%= key -%> = <%= value %>
+<% end %>
+<% end %>
 

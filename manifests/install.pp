@@ -13,7 +13,7 @@ class puppetclient::install ($upstreamrepository = 'false') {
       # used by the upstream puppet
       package {'libaugeas-ruby': }
 
-      Apt::Source['puppet'] => Package['puppet']
+      Apt::Source['puppet'] -> Package['puppet']
     } else {
       warn ("puppetclient::upstreamrepository is not implemented for ${::operatingsystem}")
     }
