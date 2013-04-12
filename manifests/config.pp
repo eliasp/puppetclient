@@ -4,6 +4,7 @@ class puppetclient::config (
     $cronminutes,
     $splay = undef,
     $data = {},
+    $configfile = '/etc/puppet/puppet.conf',
 ) {
   $default = {
     'main' => {
@@ -52,7 +53,7 @@ class puppetclient::config (
     'agent' => merge($default[agent], $data[agent]),
   }
 
-  file { '/etc/puppet/puppet.conf':
+  file { $configfile:
     content => template('puppetclient/puppet.conf.erb')
   }
 
