@@ -1,0 +1,10 @@
+2013-04-12 Bernhard Schmidt - 0.1.1
+ * Add changelog
+ * Order sections and keys in generated configfile to get a 
+   predictable output
+ * Do not stop Service['puppet'] with startmode 'cron' or 'manual', it
+   often also kills the manually started instance like a self-destruct.
+   This might leave a daemon process running when initially switching to
+   another start mode, but this is definitely the lesser evil right now.
+ * New parameter puppetclient::config::configfile to set filename of the
+   generated config file, add example to README.md

@@ -51,6 +51,8 @@ The same can be archieved by setting the following variables in Hiera:
 
 If you want to set $upstreamrepository, you currently need to use **'true'** (the string), not **true** (Boolean value)
 
+### puppetclient::config
+
 You can also set and overwrite arbitrary files in the generated puppet.conf from Hiera, and possibly from plain Puppet manifests, too. You need to create a nested hash and pass it to 'puppetclient::config', where the outer key is the section and the inner key is the variable to be set. Due to limitations of stdlib only the
 
  * main
@@ -64,6 +66,32 @@ It is recommended to set those values from Hiera, i.e.
     puppetclient::config::data :
         master :
             reportfrom : 'some.mail@domain.com'
+
+Another interesting parameter is **puppetclient::config::configfile**, which sets the filename of the puppet.conf generated from the puppetclient class and the data in Hiera. This can for example easily be used to create a puppet.conf.d directory where you can drop-in other config file parts like this:
+
+Hiera:
+    puppetclient::config::configfile : '/etc/puppet/puppet.conf.d/10-puppetclient.conf'
+
+Manifest:
+    file {
+      "/etc/puppet/puppet.conf.d/":
+        owner => root,
+        group => root,
+        mode => 0550,
+        ensure => directory,
+        notify => Exec["compile puppet.conf"];
+    }
+
+    class { 'puppetclient': }
+
+    File[hiera('puppetclient::config::configfile', '/etc/puppet/puppet.conf')] ~> Exec['compile puppet.conf']
+
+    # Compile /etc/puppet/puppet.conf from individual files in /etc/puppet/puppet.conf.d
+    exec { "compile puppet.conf":
+      path => "/usr/bin:/bin",
+      command => "cat /etc/puppet/puppet.conf.d/??-*.conf > /etc/puppet/puppet.conf",
+      refreshonly => true;
+    }
 
 
 ## Author
