@@ -1,7 +1,10 @@
-<% config.each_pair do |section, key_values| -%>
+# This file is managed by Puppet (module puppetclient)
+# changes will be overwritten
+
+<% config.keys.sort.each do |section| -%>
 [<%= section -%>]
-<% key_values.each_pair do |key, value| -%>
-	<%= key -%> = <%= value %>
+<% config[section].keys.sort.each do |key| -%>
+	<%= key -%> = <%= config[section][key] %>
 <% end %>
 <% end %>
 
