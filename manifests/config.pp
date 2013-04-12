@@ -34,6 +34,7 @@ class puppetclient::config (
   # Live would be so easy if there was a deep_merge function
   # $config = deep_merge($default, $data)
   # Instead we have to check each section for the right type and merge them seperately
+  # https://projects.puppetlabs.com/issues/20200
 
   if ! has_key($data, 'main') {
     $data[main] = {}
@@ -63,40 +64,43 @@ class puppetclient::config (
   }
 
   if $startmode {
-    if $startmode == 'daemon' {
-      augeas { 'puppetclient::enable_puppet':
-        changes => [
-          'set /files/etc/default/puppet/START yes'
-        ],
-      }
+    # We can NOT set ensure => stopped at the moment, because that
+    # also immediately kills the onetime agent started from cron
+    $service_ensure = $startmode ? {
+      'auto'   => 'running',
+      'cron'   => undef,
+      'manual' => undef,
+      default  => undef,
+    }
 
-      file { '/etc/cron.d/puppetclient':
-        ensure => absent,
-      }
+    $service_enable = $startmode ? {
+      'auto'   => true,
+      'cron'   => false,
+      'manual' => false,
+      default  => undef,
+    }
 
-      service { 'puppet':
-        ensure => running,
+    if $operatingsystem == 'Debian' {
+      augeas { 'puppetclient::defaults_puppet':
+        changes => $service_enable ? {
+          true  => [ 'set /files/etc/default/puppet/START yes' ],
+          false => [ 'set /files/etc/default/puppet/START no' ],
+        },
       }
     }
 
-    if $startmode == 'cron' or $startmode == 'manual' {
-      augeas { 'puppetclient::enable_puppet':
-        changes => [
-          'set /files/etc/default/puppet/START no'
-        ],
-      }
+    service { 'puppet':
+      ensure    => $service_ensure,
+      enable    => $service_enable,
+      hasstatus => true,
+    }
 
-      file { '/etc/cron.d/puppetclient':
-        ensure  => $startmode ? {
-          /cron/  => present,
-          default => absent,
-        },
-        content => template('puppetclient/puppetclient.cron.erb')
-      }
-
-      service { 'puppet':
-        ensure => stopped,
-      }
+    file { '/etc/cron.d/puppetclient':
+      ensure  => $startmode ? {
+        'cron'  => present,
+        default => absent,
+      },
+      content => template('puppetclient/puppetclient.cron.erb')
     }
   }
 }
