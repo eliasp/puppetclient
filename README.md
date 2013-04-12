@@ -70,9 +70,11 @@ It is recommended to set those values from Hiera, i.e.
 Another interesting parameter is **puppetclient::config::configfile**, which sets the filename of the puppet.conf generated from the puppetclient class and the data in Hiera. This can for example easily be used to create a puppet.conf.d directory where you can drop-in other config file parts like this:
 
 Hiera:
+
     puppetclient::config::configfile : '/etc/puppet/puppet.conf.d/10-puppetclient.conf'
 
 Manifest:
+
     file {
       "/etc/puppet/puppet.conf.d/":
         owner => root,
