@@ -4,7 +4,7 @@ class puppetclient::install ($upstreamrepository = 'false') {
       apt::source { 'puppet':
         location   => 'http://apt.puppetlabs.com/',
         release    => $::lsbdistcodename,
-        repos      => 'main',
+        repos      => 'main dependencies',
         key        => '4BD6EC30',
         key_server => 'hkp://p80.pool.sks-keyservers.net:80'
       }

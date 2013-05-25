@@ -1,10 +1,10 @@
 # This file is managed by Puppet (module puppetclient)
 # changes will be overwritten
 
-<% config.keys.sort.each do |section| -%>
+<% @config.keys.sort.each do |section| -%>
 [<%= section -%>]
-<% config[section].keys.sort.each do |key| -%>
-	<%= key -%> = <%= config[section][key] %>
+<% @config[section].keys.sort.each do |key| -%>
+	<%= key -%> = <%= @config[section][key] %>
 <% end %>
 <% end %>
 

@@ -1,3 +1,10 @@
+2013-05-25 Bernhard Schmidt - 0.1.2
+ * Fixes for Puppet 3.2
+   - Also add dependencies section of the Puppetlabs APT repository
+   - cron: add --no-daemonize option and redirect to /dev/null, workaround
+     for https://projects.puppetlabs.com/issues/20900
+   - Fix depreciation warning in puppet.conf.erb
+
 2013-04-12 Bernhard Schmidt - 0.1.1
  * Add changelog
  * Order sections and keys in generated configfile to get a 

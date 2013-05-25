@@ -6,5 +6,6 @@ else
 end
 -%>
 
-<%= @cronminutes.join(",") -%> * * * * 	root	<%= splaystring -%>/usr/bin/puppet agent --onetime
+<%= @cronminutes.join(",") -%> * * * * 	root	<%= splaystring -%>/usr/bin/puppet agent --onetime --no-daemonize > /dev/null
+
 
