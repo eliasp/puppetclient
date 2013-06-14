@@ -80,7 +80,7 @@ class puppetclient::config (
       default  => undef,
     }
 
-    if $operatingsystem == 'Debian' {
+    if $osfamily == 'Debian' {
       augeas { 'puppetclient::defaults_puppet':
         changes => $service_enable ? {
           true  => [ 'set /files/etc/default/puppet/START yes' ],
