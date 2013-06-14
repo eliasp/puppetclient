@@ -1,0 +1,3 @@
+- Make it possible to also select the "unstable" release, as the current module only installs
+  Puppet 2.7.x from the upstream repositories, but not 3.x.
+- Add capabilities to also install + manage the master and not only the client.
